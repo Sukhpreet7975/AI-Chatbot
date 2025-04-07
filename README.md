@@ -21,7 +21,7 @@ A simple HTML and JavaScript-based chatbot designed to help users generate and m
 1. Clone or download the repository.
 2. Open `Chatbot.html` in any modern web browser.
 3. Interact with the chatbot in the chat window provided.
-4. To use the same code with live data, fetch your own API key from OpenRouter and integrate it accordingly.
+4. To use the same code with live data, fetch your own API key from [OpenRouter](https://openrouter.ai/) and integrate it accordingly.
 
 ## 📁 File Structure
 
