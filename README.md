@@ -35,7 +35,7 @@ invoice-chatbot/
 
 ## 📸 Screenshot
 
-![Chatbot UI Screenshot](Screenshot%202025-04-07%20200009.png)
+![Chatbot UI Screenshot](Chatbot.png)
 
 ## 🧐 Future Improvements
 
