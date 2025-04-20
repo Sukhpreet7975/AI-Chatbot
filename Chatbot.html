@@ -19,7 +19,7 @@
     <style>
         /* --- CSS Custom Properties (Variables) for Theming --- */
         :root {
-            /* Color Palette */
+            /* Color Palette - Light Mode */
             --primary-color: #17a2b8; /* Teal */
             --primary-hover: #138496; /* Darker Teal */
             --secondary-color: #494e54; /* Mid Grey */
@@ -48,12 +48,48 @@
             --border-radius-lg: 0.8rem;
         }
 
+        /* --- Dark Mode Variables --- */
+        body.dark-mode {
+            --primary-color: #1ec8e0; /* Slightly brighter teal for dark mode */
+            --primary-hover: #1ab5cc;
+            --secondary-color: #adb5bd; /* Lighter grey */
+            --light-bg: #212529; /* Dark background */
+            --white: #1a1a1a; /* Very dark background */
+            --dark-text: #f8f9fa; /* Light text */
+            --muted-text: #a0a8b0; /* Lighter muted text */
+            --border-color: #495057; /* Darker border */
+            --user-msg-bg: #2a4a50; /* Darker teal bg */
+            --bot-msg-bg: #343a40; /* Dark grey bot msg */
+            --user-msg-label: var(--primary-color); /* Keep primary */
+            --bot-msg-label: var(--primary-color); /* Keep primary */
+            --link-color: #2bd4eb; /* Brighter link */
+            --typing-dot-color: var(--secondary-color);
+            --accordion-header-bg: #343a40; /* Dark grey */
+            --accordion-active-bg: var(--primary-color);
+            --accordion-active-color: #111; /* Dark text on active accordion */
+            --blockquote-border: var(--primary-color);
+            --chat-body-bg: #282c31; /* Slightly different dark chat bg */
+
+            /* Adjust shadows for dark mode */
+            --shadow-sm: 0 .125rem .25rem rgba(255, 255, 255, .06);
+            --shadow-md: 0 .5rem 1rem rgba(255, 255, 255, .1);
+
+            /* Ensure specific elements inherit correctly */
+             color-scheme: dark; /* Hint to browser/OS for dark mode */
+        }
+
         /* --- General Body Styling --- */
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             color: var(--dark-text);
             background-color: var(--white);
             line-height: 1.6;
+             /* --- Add smooth transition for theme change --- */
+             transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Add transitions to other elements if needed */
+        .hero, .section-bg, .feature-card, .how-card, .chat-container, .chat-body, .chat-footer, .accordion-item, .accordion-button, .accordion-body, .bot-message, .you-message, .chat-footer input[type="text"] {
+             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         /* --- Hero Section --- */
@@ -102,7 +138,7 @@
              border-radius: var(--border-radius-md);
              background-color: var(--white);
              box-shadow: var(--shadow-sm);
-             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* Added bg/border transition */
              height: 100%; /* Ensure cards in a row have same height */
              display: flex;
              flex-direction: column;
@@ -120,11 +156,13 @@
              font-weight: 600;
              margin-bottom: 10px;
              font-size: 1.2rem;
+             transition: color 0.3s ease; /* Added color transition */
         }
          /* Card paragraph text */
          .feature-card p, .how-card p {
               color: var(--muted-text);
               font-size: 0.95rem;
+              transition: color 0.3s ease; /* Added color transition */
          }
 
         /* --- Contact Section --- */
@@ -142,6 +180,7 @@
             text-decoration: underline;
             color: #dc3545; /* Using red as originally specified, consider changing to a theme color */
             font-weight: bold;
+            transition: color 0.3s ease; /* Added color transition */
         }
 
         /* --- Chatbot Toggle Button --- */
@@ -150,7 +189,7 @@
             bottom: 25px;
             right: 25px;
             background: var(--primary-color);
-            color: var(--white);
+            color: var(--white); /* Needs adjustment in dark mode */
             border: none;
             border-radius: 50%; /* Makes it circular */
             width: 65px;
@@ -166,7 +205,7 @@
             /* Styles for smooth fade transition when chat opens/closes */
             opacity: 1;
             visibility: visible;
-            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
         }
         /* Hover effect for toggle button */
         .chat-toggle-btn:hover {
@@ -210,9 +249,10 @@
             font-weight: 600;
             padding: 15px 20px;
             background: var(--primary-color);
-            color: var(--white);
+            color: var(--white); /* Needs adjustment in dark mode */
             cursor: grab; /* Indicates draggable */
             flex-shrink: 0; /* Prevents header from shrinking */
+             transition: background-color 0.3s ease, color 0.3s ease; /* Add transitions */
         }
         /* Cursor change during drag */
         .chat-header:active {
@@ -225,11 +265,11 @@
             font-weight: normal;
             padding: 0 5px;
             line-height: 1;
-            color: rgba(255, 255, 255, 0.8); /* Slightly transparent */
+            color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
             transition: color 0.2s ease;
         }
         .chat-close:hover {
-             color: var(--white); /* Opaque on hover */
+             color: var(--white); /* Opaque white on hover - needs dark mode adjustment */
         }
 
         /* --- Chatbot Body (Message Area) --- */
@@ -250,6 +290,7 @@
             word-wrap: break-word; /* Breaks long words */
             padding: 12px 18px; /* Base padding */
             border-radius: var(--border-radius-md);
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transitions */
         }
          /* Styling for sender labels (e.g., "You:", "Bot:") */
          .chat-body p b {
@@ -258,6 +299,7 @@
             font-size: 0.85em;
             font-weight: 600;
             opacity: 0.9;
+            transition: color 0.3s ease; /* Add transition */
          }
          /* Remove bottom margin from the very last message */
          .chat-body p:last-child {
@@ -273,6 +315,7 @@
              border-radius: var(--border-radius-md) var(--border-radius-md) 0 var(--border-radius-md);
              /* User messages don't get buttons, so standard padding is fine */
              padding-right: 18px; /* Default padding */
+             color: var(--dark-text); /* Ensure text color is set */
          }
          .you-message b {
             color: var(--user-msg-label); /* Specific color for "You:" label */
@@ -288,6 +331,7 @@
              border: 1px solid var(--border-color);
              box-shadow: var(--shadow-sm);
              position: relative; /* Needed for absolute positioning of buttons */
+             color: var(--dark-text); /* Ensure text color is set */
              /* --- CORRECTED PADDING --- */
              /* Increase padding significantly to fit both buttons comfortably */
              padding-right: 110px !important; /* Use !important to override general 'p' padding if needed */
@@ -322,13 +366,13 @@
          /* Specific Markdown element styling */
          .bot-message span ul, .bot-message span ol { padding-left: 25px; margin-bottom: 10px; }
          .bot-message span li { margin-bottom: 6px; }
-         .bot-message span blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 15px; margin-left: 0; color: var(--muted-text); font-style: italic; background: none; }
-         .bot-message span code:not(pre code) { background-color: #e9ecef; padding: 2px 5px; border-radius: var(--border-radius-sm); font-size: 0.9em; font-family: monospace; color: #c7254e; }
-         .bot-message span pre { background-color: #f1f1f1; color: var(--dark-text); padding: 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; }
+         .bot-message span blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 15px; margin-left: 0; color: var(--muted-text); font-style: italic; background: none; transition: color 0.3s ease, border-color 0.3s ease; }
+         .bot-message span code:not(pre code) { background-color: #e9ecef; padding: 2px 5px; border-radius: var(--border-radius-sm); font-size: 0.9em; font-family: monospace; color: #c7254e; transition: background-color 0.3s ease, color 0.3s ease; }
+         .bot-message span pre { background-color: #f1f1f1; color: var(--dark-text); padding: 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
          .bot-message span pre code { padding: 0; background: none; color: inherit; border: none; font-size: inherit; }
          .bot-message span table { border-collapse: collapse; width: 100%; margin-bottom: 12px; font-size: 0.9em; }
-         .bot-message span th, .bot-message span td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
-         .bot-message span th { background-color: var(--light-bg); font-weight: 600; }
+         .bot-message span th, .bot-message span td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; transition: border-color 0.3s ease; }
+         .bot-message span th { background-color: var(--light-bg); font-weight: 600; transition: background-color 0.3s ease, border-color 0.3s ease; }
 
 
         /* --- EXPORT BUTTON STYLING (Corrected Position) --- */
@@ -341,12 +385,12 @@
             padding: 3px 8px;
             font-size: 0.8em;
             background-color: var(--primary-color);
-            color: var(--white);
+            color: var(--white); /* White text on button - needs dark mode adjustment */
             border: none;
             border-radius: var(--border-radius-sm);
             cursor: pointer;
             opacity: 0.8;
-            transition: opacity 0.2s ease, background-color 0.2s ease;
+            transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
             z-index: 1;
         }
         .export-invoice-btn:hover {
@@ -369,17 +413,17 @@
             padding: 3px 8px;
             font-size: 0.8em;
             background-color: var(--secondary-color);
-            color: var(--white);
+            color: var(--white); /* White text on button - needs dark mode adjustment */
             border: none;
             border-radius: var(--border-radius-sm);
             cursor: pointer;
             opacity: 0.8;
-            transition: opacity 0.2s ease, background-color 0.2s ease;
+            transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
             z-index: 1;
         }
         .print-invoice-btn:hover {
             opacity: 1;
-            background-color: #343a40;
+            background-color: #343a40; /* Slightly darker grey hover */
         }
         .print-invoice-btn i {
             margin-right: 4px;
@@ -394,6 +438,7 @@
             align-items: center;
             background: var(--white);
             flex-shrink: 0; /* Prevents footer from shrinking */
+             transition: background-color 0.3s ease; /* Add transition */
         }
         /* Text input field */
         .chat-footer input[type="text"] {
@@ -404,6 +449,8 @@
             border: 1px solid var(--border-color);
             font-size: 0.95rem;
             background-color: var(--white);
+            color: var(--dark-text); /* Use variable for text color */
+             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Add transitions */
         }
          /* Focus style for input field */
          .chat-footer input[type="text"]:focus {
@@ -411,6 +458,10 @@
              box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25); /* Teal focus ring */
              outline: none;
          }
+          .chat-footer input[type="text"]::placeholder {
+              color: var(--muted-text); /* Use muted text for placeholder */
+              transition: color 0.3s ease;
+          }
         /* Send button */
         .chat-footer .btn-send {
              flex-shrink: 0; /* Prevents button from shrinking */
@@ -429,7 +480,12 @@
              background-color: var(--primary-hover);
         }
         /* Icon inside send button */
-        .chat-footer .btn-send svg, .chat-footer .btn-send i { width: 18px; height: 18px; color: var(--white); }
+        .chat-footer .btn-send svg, .chat-footer .btn-send i {
+            width: 18px;
+            height: 18px;
+            color: var(--white); /* Needs dark mode adjustment */
+            transition: color 0.3s ease;
+        }
 
         /* --- Typing Indicator Animation --- */
         /* Keyframes for the dot animation */
@@ -446,6 +502,7 @@
             border-radius: 50%;
             margin: 0 2px;
             animation: bubbleAnimation 1.2s infinite ease-in-out;
+            transition: background-color 0.3s ease; /* Add transition */
         }
         /* Stagger the animation start times for the dots */
         .typing-indicator span:nth-child(1) { animation-delay: 0s; }
@@ -464,6 +521,7 @@
             border-radius: var(--border-radius-md) var(--border-radius-md) var(--border-radius-md) 0;
             /* Override button padding for typing indicator */
             padding-right: 18px !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Add transitions */
         }
         /* Styling for the "Bot:" label within the indicator */
         #typingIndicator b {
@@ -473,6 +531,7 @@
             font-size: 0.85em;
             font-weight: 600;
             opacity: 0.9;
+            transition: color 0.3s ease; /* Add transition */
         }
 
         /* --- FAQ Accordion Styling (Bootstrap Override/Customization) --- */
@@ -481,6 +540,8 @@
              border: 1px solid var(--border-color);
              border-radius: var(--border-radius-sm);
              overflow: hidden; /* Ensures border-radius applies correctly */
+             background-color: var(--accordion-header-bg); /* Background for the whole item */
+             transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition */
         }
          /* Remove default Bootstrap accordion header margin */
          .accordion-header {
@@ -496,6 +557,7 @@
              width: 100%;
              text-align: left;
              border: none; /* Remove default button border */
+             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Add transition */
         }
          /* Styles for the button when the accordion item is open (not collapsed) */
          .accordion-button:not(.collapsed) {
@@ -520,7 +582,7 @@
              content: "";
              background-repeat: no-repeat;
              background-size: 1.25rem;
-             transition: transform .2s ease-in-out; /* Animate arrow rotation */
+             transition: transform .2s ease-in-out, background-image .2s ease-in-out; /* Animate arrow rotation and color change */
          }
          /* Arrow icon style when accordion item is open */
          .accordion-button:not(.collapsed)::after {
@@ -529,10 +591,11 @@
          }
         /* Accordion body content area */
         .accordion-body {
-             background-color: var(--white);
+             background-color: var(--white); /* Body background matches item background */
              padding: 1rem 1.25rem;
              font-size: 0.95rem;
              color: var(--muted-text);
+             transition: background-color 0.3s ease, color 0.3s ease; /* Add transition */
         }
 
         /* --- General Link Styling --- */
@@ -546,8 +609,205 @@
            text-decoration: underline; /* Add underline on hover */
         }
 
+        /* --- Dark Mode Specific Adjustments --- */
+        body.dark-mode {
+             background-color: var(--white); /* Use the dark version of --white */
+             color: var(--dark-text);
+        }
+        body.dark-mode .hero {
+            background-color: var(--light-bg); /* Use dark version of --light-bg */
+            color: var(--dark-text);
+        }
+         body.dark-mode .section-bg {
+            background-color: var(--light-bg); /* Use dark version of --light-bg */
+        }
+        body.dark-mode h2.section-title {
+            color: var(--dark-text); /* Light text for titles in dark mode */
+        }
+        body.dark-mode .feature-card h4,
+        body.dark-mode .how-card h5 {
+            color: var(--primary-color); /* Ensure headings use updated primary */
+        }
+         body.dark-mode .feature-card,
+         body.dark-mode .how-card {
+              background-color: var(--bot-msg-bg); /* Use a dark card background */
+              border-color: var(--border-color);
+         }
+         body.dark-mode .feature-card p,
+         body.dark-mode .how-card p,
+         body.dark-mode .accordion-body {
+              color: var(--muted-text);
+         }
+         body.dark-mode #para {
+             color: #f76a78; /* Lighter red */
+         }
+         body.dark-mode a {
+             color: var(--link-color);
+         }
+         body.dark-mode a:hover {
+            color: var(--primary-hover);
+         }
+         body.dark-mode .chat-toggle-btn {
+             background: var(--primary-color);
+             color: #111; /* Dark icon on primary bg */
+         }
+         body.dark-mode .chat-toggle-btn:hover {
+             background: var(--primary-hover);
+         }
 
-        /* --- Print-Specific Styles --- */
+         /* Dark Mode for Chat */
+         body.dark-mode .chat-container {
+             background: var(--white);
+             border-color: var(--border-color);
+         }
+          /* Header dark mode */
+         body.dark-mode .chat-header {
+             color: #111; /* Dark text on primary header in dark mode */
+         }
+         body.dark-mode .chat-header .chat-close {
+              color: rgba(0, 0, 0, 0.7);
+         }
+         body.dark-mode .chat-header .chat-close:hover {
+              color: #000;
+         }
+         body.dark-mode .chat-body {
+             background: var(--chat-body-bg);
+             border-color: var(--border-color);
+         }
+         body.dark-mode .you-message {
+             background-color: var(--user-msg-bg);
+             color: var(--dark-text); /* Ensure text is light */
+         }
+          body.dark-mode .you-message b {
+             color: var(--link-color); /* Brighter label for user */
+         }
+         body.dark-mode .bot-message {
+             background-color: var(--bot-msg-bg);
+             border-color: var(--border-color);
+             color: var(--dark-text); /* Ensure text is light */
+         }
+         body.dark-mode .bot-message b {
+             color: var(--link-color); /* Brighter label for bot */
+         }
+         /* Markdown in Dark Mode */
+         body.dark-mode .bot-message span code:not(pre code) { background-color: #495057; color: #f0ad4e; }
+         body.dark-mode .bot-message span pre { background-color: #212529; color: #ced4da; border-color: var(--border-color); }
+         body.dark-mode .bot-message span table th, body.dark-mode .bot-message span table td { border-color: var(--border-color); }
+         body.dark-mode .bot-message span th { background-color: #495057; } /* Darker table header */
+         body.dark-mode .bot-message span blockquote { border-left-color: var(--blockquote-border); color: var(--muted-text); }
+
+         /* Chat Footer Dark */
+         body.dark-mode .chat-footer {
+             background: var(--bot-msg-bg); /* Dark footer background */
+         }
+         body.dark-mode .chat-footer input[type="text"] {
+             background-color: var(--white); /* Dark input field */
+             border-color: var(--border-color);
+             color: var(--dark-text);
+         }
+          body.dark-mode .chat-footer input[type="text"]::placeholder {
+             color: var(--muted-text); /* Lighter placeholder */
+         }
+         body.dark-mode .chat-footer input[type="text"]:focus {
+             border-color: var(--primary-color);
+             box-shadow: 0 0 0 0.2rem rgba(30, 200, 224, 0.25); /* Teal focus ring */
+             background-color: var(--white); /* Keep dark on focus */
+         }
+          /* Send button dark mode */
+          body.dark-mode .chat-footer .btn-send i {
+             color: #111; /* Dark icon on primary bg */
+          }
+          /* Export/Print buttons dark mode adjustments */
+          body.dark-mode .export-invoice-btn {
+              background-color: var(--primary-color);
+              color: #111; /* Dark text */
+          }
+           body.dark-mode .export-invoice-btn:hover {
+              background-color: var(--primary-hover);
+           }
+          body.dark-mode .print-invoice-btn {
+               background-color: var(--secondary-color);
+               color: var(--dark-text);
+          }
+           body.dark-mode .print-invoice-btn:hover {
+               background-color: #bec6cf; /* Lighter grey hover */
+               color: #111;
+          }
+
+
+         /* Accordion Dark */
+         body.dark-mode .accordion-item {
+             border-color: var(--border-color);
+             background-color: var(--accordion-header-bg); /* Ensure item bg is dark */
+         }
+         body.dark-mode .accordion-button {
+             background-color: var(--accordion-header-bg);
+             color: var(--dark-text);
+             border-bottom-color: var(--border-color);
+         }
+         body.dark-mode .accordion-button:not(.collapsed) {
+             color: var(--accordion-active-color);
+             background-color: var(--accordion-active-bg);
+             border-bottom-color: var(--accordion-active-bg);
+         }
+         body.dark-mode .accordion-button:focus {
+              box-shadow: 0 0 0 0.2rem rgba(30, 200, 224, 0.25); /* Teal focus ring */
+         }
+          /* Arrow color needs adjustment */
+         body.dark-mode .accordion-button::after {
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23adb5bd'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); /* Lighter grey arrow */
+         }
+          body.dark-mode .accordion-button:not(.collapsed)::after {
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23111111'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); /* Dark arrow on active */
+         }
+         body.dark-mode .accordion-body {
+             background-color: var(--accordion-header-bg); /* Match accordion item bg */
+         }
+
+
+        /* --- Dark Mode Toggle Button Styling --- */
+        #darkModeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1051; /* Above chat toggle */
+            background-color: var(--secondary-color);
+            color: var(--dark-text); /* Use text color variable */
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            /* --- UPDATED TRANSITION --- */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 1; /* Start visible */
+            visibility: visible; /* Start visible */
+        }
+        #darkModeToggle:hover {
+            background-color: var(--primary-color);
+            color: var(--white); /* Appropriate text on primary bg */
+            transform: scale(1.1);
+             border-color: var(--primary-hover);
+        }
+         /* Specific dark mode styling for the button itself */
+         body.dark-mode #darkModeToggle {
+             background-color: var(--secondary-color); /* Use dark secondary */
+             color: var(--dark-text); /* Use dark text */
+             border-color: var(--border-color); /* Use dark border */
+         }
+          body.dark-mode #darkModeToggle:hover {
+              background-color: var(--primary-color);
+              color: #111; /* Use dark text on primary bg in dark mode */
+              border-color: var(--primary-hover);
+         }
+
+
+        /* --- Print-Specific Styles (UPDATED) --- */
          @media print {
              body * {
                  /* Hide everything by default */
@@ -562,7 +822,6 @@
                  background: #fff !important; /* Ensure white background */
                  -webkit-print-color-adjust: exact !important; /* Try to force background/color printing */
                  print-color-adjust: exact !important; /* Standard property for compatibility */
-                 print-color-adjust: exact !important;
              }
 
              /* Make only the targeted element and its content visible */
@@ -570,17 +829,21 @@
                  visibility: visible !important;
              }
 
-             /* Ensure the target element takes up the page */
+             /* Ensure the target element takes up the page and can grow */
              .print-target {
                  position: absolute !important;
-                 left: 20px !important; /* Add some margin */
-                 top: 20px !important;
-                 right: 20px !important;
-                 width: auto !important; /* Allow width to fill */
+                 /* --- ADJUSTED MARGINS --- */
+                 left: 10px !important;  /* Smaller left margin */
+                 top: 10px !important;   /* Smaller top margin */
+                 right: 10px !important; /* Smaller right margin */
+                 width: auto !important; /* Allow width to fill available space */
+                 height: auto !important; /* Allow height to grow with content */
                  display: block !important; /* Ensure it's a block */
                  border-radius: 0 !important; /* Remove rounded corners for print */
                  background: #fff !important; /* Force white background */
                  padding: 0 !important; /* Reset padding for the main container */
+                 color: #000 !important; /* Ensure text is black */
+                 overflow: visible !important; /* Ensure content isn't clipped */
              }
 
              /* Hide the "Bot:" label and the Export/Print buttons within the target */
@@ -596,7 +859,40 @@
                  display: block !important;
                  padding: 0 !important; /* Remove inner padding */
                  margin: 0 !important;
+                 color: #000 !important; /* Ensure text is black */
+                 width: 100% !important; /* Ensure span takes full width */
+                 height: auto !important; /* Ensure span height adjusts */
+                 overflow: visible !important; /* Allow content overflow */
              }
+
+             /* --- ADDED/ADJUSTED: Reset margins for block elements within the content --- */
+             .print-target > span p,
+             .print-target > span h1,
+             .print-target > span h2,
+             .print-target > span h3,
+             .print-target > span h4,
+             .print-target > span h5,
+             .print-target > span h6,
+             .print-target > span ul,
+             .print-target > span ol,
+             .print-target > span blockquote,
+             .print-target > span pre,
+             .print-target > span table {
+                 margin-top: 5px !important;    /* Smaller top margin */
+                 margin-bottom: 8px !important; /* Slightly larger bottom margin for separation */
+                 padding: 0 !important;        /* Remove padding */
+                 page-break-inside: avoid !important; /* Try to avoid breaking these elements across pages */
+             }
+             .print-target > span h1, /* Adjust heading sizes if needed */
+             .print-target > span h2 {
+                 font-size: 14pt !important;
+                 margin-top: 10px !important;
+             }
+             .print-target > span h3 { font-size: 12pt !important; margin-top: 8px !important;}
+             .print-target > span h4 { font-size: 11pt !important; margin-top: 8px !important;}
+             .print-target > span li { margin-bottom: 3px !important; }
+             /* --- END ADDED/ADJUSTED --- */
+
 
              /* Improve table appearance for print */
               .print-target span table,
@@ -606,13 +902,17 @@
                   padding: 4px 6px !important; /* Adjust padding */
                   font-size: 9pt !important;
                   word-wrap: break-word !important; /* Allow text wrapping in cells */
+                  color: #000 !important;
+                  background: #fff !important; /* Ensure white cell background */
+                   page-break-inside: avoid !important; /* Try keep table rows together */
               }
                .print-target span th {
                   background-color: #eee !important; /* Light grey header */
                   font-weight: bold !important;
+                  color: #000 !important;
               }
 
-              /* Ensure links are visible and show URL (optional) */
+              /* Ensure links are visible */
                .print-target a {
                    color: #000 !important;
                    text-decoration: underline !important;
@@ -630,20 +930,22 @@
                    padding: 5px !important;
                    white-space: pre-wrap !important; /* Wrap long code lines */
                    word-wrap: break-word !important;
+                   color: #000 !important;
+                   page-break-inside: avoid !important;
                }
+                .print-target code {
+                    color: #000 !important;
+                    background: #f9f9f9 !important;
+                }
                .print-target blockquote {
                    border-left: 3px solid #ccc !important;
                    padding-left: 10px !important;
                    margin-left: 0 !important;
                    font-style: italic !important;
+                   color: #333 !important;
+                   page-break-inside: avoid !important;
                }
-               .print-target h1, .print-target h2, .print-target h3, .print-target h4, .print-target h5, .print-target h6 {
-                    margin-top: 10px !important;
-                    margin-bottom: 5px !important;
-                    font-weight: bold !important;
-               }
-                .print-target h3 { font-size: 12pt !important; }
-                .print-target h4 { font-size: 11pt !important; }
+
          }
 
 
@@ -664,6 +966,14 @@
              .hero { padding: 80px 15px; }
              section { padding-top: 40px; padding-bottom: 40px; }
              .feature-card, .how-card { margin-bottom: 20px; } /* Add space between stacked cards */
+
+             #darkModeToggle {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
         }
         /* Small devices (phones, 480px and down) */
         @media (max-width: 480px) {
@@ -728,12 +1038,20 @@
                  right: 8px; /* Keep at edge */
                  /* --- END CORRECTED POSITION (Mobile) --- */
              }
+
+              #darkModeToggle {
+                 top: 10px;
+                 right: 10px;
+                 width: 38px;
+                 height: 38px;
+                 font-size: 16px;
+             }
         }
 
     </style>
 </head>
 
-<body>
+<body> <!-- Body tag will have 'dark-mode' class added/removed by JS -->
 
     <!-- Hero Section: Introduces the chatbot -->
     <section class="hero">
@@ -959,6 +1277,11 @@
         </div>
     </div>
 
+    <!-- Dark Mode Toggle Button -->
+    <button id="darkModeToggle" aria-label="Toggle dark mode">
+        <i class="bi bi-moon-stars-fill"></i> <!-- Default to moon icon -->
+    </button>
+
     <!-- Bootstrap 5 Bundle JS (includes Popper.js for tooltips, popovers, dropdowns, etc.) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -975,10 +1298,10 @@
         // IMPORTANT: Replace 'YOUR_OPENROUTER_API_KEY_HERE' with your actual OpenRouter API key.
         // Get a key from https://openrouter.ai/
         // *** PASTE YOUR ACTUAL KEY HERE ***
-        const apiBearerToken = 'API_KEY'; // <-- ENTER KEY (Replace!)
+        const apiBearerToken = 'API_KEY'; // <-- ENTER API KEY (Generate from OpenRouter!)
         const siteUrl = 'https://your-invoice-website.com'; // Optional: Helps OpenRouter identify usage
         const siteName = 'Invoice Generator ChatBot Page'; // Optional: Helps OpenRouter identify usage
-        const modelIdentifier = "google/gemini-2.0-flash-lite-001"; // Example model
+        const modelIdentifier = "google/gemini-flash-1.5"; // Example model (updated to a known free model)
 
         // --- INVOICE-SPECIFIC RELEVANCE FILTER ---
         const relevantKeywords = [
@@ -988,14 +1311,19 @@
             "add item", "company details", "address", "invoice number", "issue date", "iban", "swift", "bank"
         ];
 
-        // --- SYSTEM PROMPT FOR INVOICE GENERATION ---
+        // --- SYSTEM PROMPT FOR INVOICE GENERATION (UPDATED FOR CONSISTENT MARKDOWN TABLES) ---
         const systemPrompt = `You are 'Invoice Generator Bot', an AI assistant specialized **ONLY** in helping users create and manage invoices. Your primary functions are:
 1.  **Gather Invoice Details:** Interact conversationally to collect necessary invoice information: Your details (if not previously provided), Client details (Name, Address, Email if needed for simulation), Invoice #, Dates (Issue, Due), Line Items (Description, Quantity, Unit Price), Taxes (percentage or amount), Discounts (percentage or amount), Payment Terms, optional Notes. Ask clarifying questions for missing essential details (like client name, items, total).
-2.  **Format Invoice:** Once sufficient details are gathered, format the information clearly into a professional-looking invoice structure using Markdown. Use headings for sections (Your Info, Client Info, Items, Summary), a table for line items (Description | Qty | Unit Price | Amount), and bold text for labels and totals. Calculate line item totals and the final total amount. Format amounts clearly (e.g., $1,234.56).
+2.  **Format Invoice:** Once sufficient details are gathered, format the information clearly into a professional-looking invoice structure **using GitHub Flavored Markdown (GFM)**.
+    *   Use Markdown headings (\`##\` or \`###\`) for sections like "Your Information", "Client Information", "Items", "Summary", "Payment Terms", "Payment Notes".
+    *   **CRITICAL for Items:** Present the line items **ONLY** within a GFM Markdown table. The table **MUST** have a header row like \`| Description | Qty | Unit Price | Amount |\` followed by a separator line like \`|---|---|---|---|\`. Each item should be on its own row within this table structure. **Do NOT list items as plain text, bullet points, or use inconsistent formatting.**
+    *   Use Markdown bold text (\`**text**\`) for labels (e.g., \`**Subtotal:**\`, \`**Total:**\`, \`**Due Date:**\`).
+    *   Calculate line item totals (Qty * Unit Price) and the final invoice total accurately.
+    *   Format currency amounts clearly (e.g., $1,234.56).
 3.  **Simulate Sending:** If the user asks to "send" the invoice (or similar phrasing like "email it"), acknowledge the request and confirm the *simulation* of sending (e.g., "OK, I have simulated sending the invoice draft to [Client Name/Email if provided]."). **DO NOT** imply you can actually send emails or connect to services. Mention they can use the 'Export' or 'Print' buttons if available.
 4.  **Refuse Off-Topic Requests:** You **MUST REFUSE** any question or task outside the scope of invoice generation/management. If asked about unrelated topics (weather, recipes, general knowledge, coding, personal opinions, complex math not for the invoice), politely state your specialization in invoices and decline. Example refusal: "I specialize in helping with invoices. I can't assist with [user's off-topic request]. How can I help with your invoice?" Do **NOT** answer off-topic questions.
 
-**CRITICAL:** Always use Markdown for invoice formatting, especially tables for line items. Be friendly and conversational while gathering info. Clearly state sending is a simulation. Strictly adhere to the invoice-only role. Calculate totals correctly. Do **NOT** handle requests for examples or templates yourself; the application code handles those directly.`;
+**CRITICAL:** Always use Markdown for invoice formatting, **especially GFM tables for line items as specified above**. Be friendly and conversational while gathering info. Clearly state sending is a simulation. Strictly adhere to the invoice-only role. Calculate totals correctly. Do **NOT** handle requests for examples or templates yourself; the application code handles those directly.`;
 
         // --- SAMPLE PROMPT TEXT ---
         const sampleInvoicePrompt = `
@@ -1016,8 +1344,8 @@ Green Earth Landscaping
 Bloomtown, OR 97211
 
 Invoice Number: GEL-2024-017
-Issue Date: March 15, 2024
-Due Date: April 15, 2024
+Issue Date: July 25, 2024
+Due Date: August 24, 2024
 
 Items:
 - Social Media Strategy Session, Quantity: 1 session, Unit Price: $300
@@ -1046,17 +1374,20 @@ Just provide similar details for your own invoice, and I'll do my best to format
 
         /**
          * Checks if a string likely contains Markdown representing an invoice.
+         * Focuses on presence of key sections and a markdown table for items.
          */
         function isLikelyInvoice(text) {
             if (!text) return false;
             const lowerText = text.toLowerCase();
             const hasInvoiceHeading = /#{1,4}\s*invoice/i.test(text);
-            const hasItemsTable = /\|\s*description\s*\|.*\|\s*amount\s*\|/i.test(lowerText);
-            const hasTotal = /\*\*\s*total[:]?\s*\*\*/i.test(lowerText) || /grand total/i.test(lowerText) || /amount due/i.test(lowerText);
-            const hasDueDate = /due date/i.test(lowerText);
-            const hasClientInfo = /client\s*(information|details|:)/i.test(lowerText);
+            // More robust check for a markdown table header/separator for items
+            const hasItemsTable = /\|\s*description\s*\|.*qty.*\|.*price.*\|.*amount\s*\|/i.test(lowerText) && /\|(?:---|:--|--:)\s*\|(?:---|:--|--:)\s*\|/.test(text);
+            const hasTotal = /\*\*\s*(total|grand total|amount due)[:]?\s*\*\*/i.test(lowerText) || /(total|grand total|amount due)\s*[:]\s*\$\s?[\d,]+\.\d{2}/i.test(lowerText);
+            const hasDueDate = /(due date|payment due)/i.test(lowerText);
+            const hasClientInfo = /(client|bill to)\s*(information|details|:)/i.test(lowerText);
             const hasYourInfo = /(your|company|from)\s*(information|details|:)/i.test(lowerText);
-            return (hasInvoiceHeading || (hasClientInfo && hasYourInfo)) && hasItemsTable && hasTotal && hasDueDate;
+            // Require table and total, plus either header or both info sections
+            return hasItemsTable && hasTotal && (hasInvoiceHeading || (hasClientInfo && hasYourInfo));
         }
 
         /**
@@ -1064,22 +1395,31 @@ Just provide similar details for your own invoice, and I'll do my best to format
          */
         function extractInvoiceNumber(text) {
             if (!text) return null;
+            // Pattern: "Invoice Number:", "Invoice #", "INV-", etc. followed by alphanumeric/hyphen/underscore
             const match = text.match(/Invoice\s*(Number|Num|#)?\s*[:\-#]?\s*([a-z0-9\-_\.]+)/i);
             if (match && match[2]) {
-                return match[2].replace(/[.,;:]$/, '').trim();
+                return match[2].replace(/[.,;:]$/, '').trim(); // Clean trailing punctuation
             }
+             // Alternative: Look for common formats like ABC-1234-56 near the top
              const earlyMatch = text.substring(0, 200).match(/([A-Z]{2,5}-?\d{4,}-?\d{2,})/i);
              if (earlyMatch && earlyMatch[1]) {
                  return earlyMatch[1].trim();
+             }
+             // Fallback: Look for just a sequence of digits labeled "Invoice #"
+             const simpleMatch = text.match(/Invoice\s*#\s*(\d+)/i);
+             if (simpleMatch && simpleMatch[1]) {
+                 return simpleMatch[1].trim();
              }
             return null;
         }
 
         /**
          * Triggers the download of provided text content as a file.
+         * Exports the raw Markdown content.
          */
         function exportInvoiceText(textContent, filename = 'invoice-export.txt') {
             if (!textContent) return;
+            // Use the raw textContent directly (which should be Markdown)
             const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1098,13 +1438,16 @@ Just provide similar details for your own invoice, and I'll do my best to format
         function printInvoiceContent(messageElement) {
             if (!messageElement) return;
 
+            // Remove any existing print-target class from other elements
             const currentlyPrinting = document.querySelector('.print-target');
             if (currentlyPrinting) {
                 currentlyPrinting.classList.remove('print-target');
             }
 
+            // Add class to the specific message element we want to print
             messageElement.classList.add('print-target');
 
+            // Function to remove the class after printing attempt
             const cleanup = () => {
                 messageElement.classList.remove('print-target');
                 window.removeEventListener('afterprint', cleanup); // Ensure listener is removed
@@ -1119,50 +1462,63 @@ Just provide similar details for your own invoice, and I'll do my best to format
                 }
             };
 
-            if ('onafterprint' in window) {
-                // Use try...finally to ensure cleanup happens even if user cancels print
-                 try {
+            // Use try...finally to ensure cleanup happens even if user cancels print
+            try {
+                if ('onafterprint' in window) {
                      window.addEventListener('afterprint', cleanupOnce, { once: true });
-                 } finally {
-                      // Add a slight delay for style application before printing
-                      setTimeout(() => {
-                          window.print();
-                           // Extra fallback timeout in case afterprint doesn't fire
-                           setTimeout(cleanupOnce, 500);
-                      }, 50);
                  }
-            } else {
-                 // Fallback for browsers without reliable onafterprint
-                 setTimeout(() => {
-                     window.print();
-                     setTimeout(cleanupOnce, 1000); // Longer fallback cleanup
-                 }, 50);
+                  // Add a slight delay for style application before printing
+                  setTimeout(() => {
+                      window.print();
+                       // Fallback timeout in case afterprint doesn't fire or isn't supported reliably
+                       setTimeout(cleanupOnce, 500);
+                  }, 100); // Slightly longer delay might help complex rendering
+            } catch (e) {
+                console.error("Error during print initiation:", e);
+                cleanupOnce(); // Ensure cleanup happens on error
             }
         }
 
 
         /**
          * Toggles the visibility of the chat window and the toggle button.
+         * ALSO hides/shows the dark mode button.
          */
         function toggleChat() {
             const chatIsOpen = chatbox.style.display === "flex";
+            const darkModeButton = document.getElementById('darkModeToggle'); // Get reference
+
             if (chatIsOpen) {
+                // Closing the chat
                 chatbox.style.display = "none";
                 toggleButton.style.opacity = "1";
                 toggleButton.style.visibility = "visible";
+                // Make dark mode button visible again
+                if (darkModeButton) {
+                    darkModeButton.style.opacity = "1";
+                    darkModeButton.style.visibility = "visible";
+                }
             } else {
+                // Opening the chat
                 chatbox.style.display = "flex";
                 toggleButton.style.opacity = "0";
                 toggleButton.style.visibility = "hidden";
+                // Hide dark mode button
+                if (darkModeButton) {
+                    darkModeButton.style.opacity = "0";
+                    darkModeButton.style.visibility = "hidden";
+                }
+                // Scroll chat and focus input
                 setTimeout(() => {
                     if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
                     if (userInput) userInput.focus();
-                }, 50);
+                }, 50); // Short delay might help rendering
             }
         }
 
         /**
          * Appends a message to the chat body, adding export/print buttons if it's an invoice.
+         * Parses Markdown if isHtml is true. Stores raw message in data attribute.
          */
         function appendMessage(sender, message, isHtml = false) {
             const messageElement = document.createElement("p");
@@ -1174,62 +1530,62 @@ Just provide similar details for your own invoice, and I'll do my best to format
             messageElement.appendChild(labelElement);
 
             const contentWrapper = document.createElement('span');
-            if (sender === 'Bot' && (message.includes("Hi! 👋🏻") || message.includes("example prompt"))) {
+             // Add specific class to initial bot message span for easier targeting/styling
+             if (sender === 'Bot' && (message.includes("Hi! 👋🏻") || message.includes("example prompt"))) {
                 contentWrapper.classList.add('initial-msg-content');
-            }
+             }
 
-            // --- EXPORT/PRINT BUTTON LOGIC ---
-            let rawBotMessage = '';
-            if (sender === 'Bot') {
-                 rawBotMessage = message;
-                 // Store raw markdown in a data attribute for potential use in history
-                 messageElement.dataset.rawMarkdown = rawBotMessage;
+            // Store the raw message (likely Markdown) before parsing, for export and history
+            let rawMessage = message;
+            messageElement.dataset.rawMarkdown = rawMessage;
 
-                 if (isLikelyInvoice(rawBotMessage)) {
-                     // Export Button
-                     const exportButton = document.createElement('button');
-                     exportButton.classList.add('export-invoice-btn');
-                     exportButton.setAttribute('aria-label', 'Export Invoice Text');
-                     exportButton.innerHTML = '<i class="bi bi-download"></i> Export';
-                     const invoiceNumber = extractInvoiceNumber(rawBotMessage);
-                     const filename = invoiceNumber ? `invoice-${invoiceNumber}.txt` : 'invoice-export.txt';
-                     exportButton.onclick = (event) => {
-                         event.stopPropagation();
-                         exportInvoiceText(rawBotMessage, filename);
-                     };
-                     messageElement.appendChild(exportButton);
-
-                     // Print Button
-                     const printButton = document.createElement('button');
-                     printButton.classList.add('print-invoice-btn');
-                     printButton.setAttribute('aria-label', 'Print Invoice');
-                     printButton.innerHTML = '<i class="bi bi-printer"></i> Print';
-                     printButton.onclick = (event) => {
-                         event.stopPropagation();
-                         printInvoiceContent(messageElement); // Pass the <p> element
-                     };
-                     messageElement.appendChild(printButton);
-                 }
-            }
-            // --- END EXPORT/PRINT BUTTON LOGIC ---
-
+            // Parse and render HTML if needed (for Bot messages)
             if (isHtml) {
                 try {
-                    const messageToRender = rawBotMessage || message;
-                    const renderedHtml = marked.parse(messageToRender, { breaks: true, gfm: true, pedantic: false, smartypants: false });
+                    // Use Marked.js to render markdown
+                    const renderedHtml = marked.parse(rawMessage, { breaks: true, gfm: true, pedantic: false, smartypants: false });
                     contentWrapper.innerHTML = renderedHtml;
                 } catch (e) {
                      console.error("Markdown parsing error:", e);
-                     contentWrapper.textContent = message; // Fallback
+                     contentWrapper.textContent = rawMessage; // Fallback to plain text
                 }
             } else {
-                contentWrapper.textContent = message;
+                contentWrapper.textContent = rawMessage; // Plain text for user messages
             }
              messageElement.appendChild(contentWrapper); // Add the content span
 
+             // Add Export/Print buttons *after* content is added and potentially parsed
+             // Check the raw message stored in dataset to see if it's an invoice
+             if (sender === 'Bot' && isLikelyInvoice(messageElement.dataset.rawMarkdown)) {
+                 // Export Button
+                 const exportButton = document.createElement('button');
+                 exportButton.classList.add('export-invoice-btn');
+                 exportButton.setAttribute('aria-label', 'Export Invoice Text');
+                 exportButton.innerHTML = '<i class="bi bi-download"></i> Export';
+                 const invoiceNumber = extractInvoiceNumber(messageElement.dataset.rawMarkdown);
+                 const filename = invoiceNumber ? `invoice-${invoiceNumber}.txt` : 'invoice-export.txt';
+                 exportButton.onclick = (event) => {
+                     event.stopPropagation(); // Prevent triggering other clicks
+                     exportInvoiceText(messageElement.dataset.rawMarkdown, filename); // Export the raw markdown
+                 };
+                 messageElement.appendChild(exportButton);
+
+                 // Print Button
+                 const printButton = document.createElement('button');
+                 printButton.classList.add('print-invoice-btn');
+                 printButton.setAttribute('aria-label', 'Print Invoice');
+                 printButton.innerHTML = '<i class="bi bi-printer"></i> Print';
+                 printButton.onclick = (event) => {
+                     event.stopPropagation(); // Prevent triggering other clicks
+                     printInvoiceContent(messageElement); // Pass the <p> element containing the rendered HTML
+                 };
+                 messageElement.appendChild(printButton);
+             }
+
+
             responseDiv.appendChild(messageElement); // Add the complete message paragraph
 
-             // Scroll to bottom
+             // Scroll to bottom smoothly
              requestAnimationFrame(() => {
                  if (chatBody) chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
              });
@@ -1239,14 +1595,15 @@ Just provide similar details for your own invoice, and I'll do my best to format
          * Displays the typing indicator.
          */
         function showTypingIndicator() {
-            hideTypingIndicator();
+            hideTypingIndicator(); // Ensure only one indicator exists
             const typingIndicator = document.createElement("p");
             typingIndicator.id = "typingIndicator";
-            typingIndicator.classList.add('bot-message');
-             // Reset padding specifically for typing indicator
+            typingIndicator.classList.add('bot-message'); // Style like a bot message
+             // Reset padding specifically for typing indicator (no buttons needed)
              typingIndicator.style.paddingRight = '18px';
             typingIndicator.innerHTML = `<b>Bot:</b> <span class="typing-indicator"><span></span><span></span><span></span></span>`;
             responseDiv.appendChild(typingIndicator);
+            // Scroll to make indicator visible
             requestAnimationFrame(() => {
                 if (chatBody) chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
             });
@@ -1265,7 +1622,9 @@ Just provide similar details for your own invoice, and I'll do my best to format
          */
         function isQueryRelevant(query) {
             const lowerCaseQuery = query.toLowerCase();
+            // Check for specific keywords
             const containsKeyword = relevantKeywords.some(keyword => lowerCaseQuery.includes(keyword));
+            // Check for patterns indicating data entry (e.g., "2 x $50", "client:", "inv-123")
             const looksLikeData = /(\d+)\s*(x|\*)\s*[$€£]?\d+(\.\d+)?/.test(lowerCaseQuery) || /client:/i.test(lowerCaseQuery) || /item:/i.test(lowerCaseQuery) || /due by/i.test(lowerCaseQuery) || /inv-?#?\s?\d+/i.test(lowerCaseQuery);
             return containsKeyword || looksLikeData;
         }
@@ -1276,164 +1635,189 @@ Just provide similar details for your own invoice, and I'll do my best to format
          */
         async function sendMessage() {
             const input = userInput.value.trim();
-            if (!input) return;
+            if (!input) return; // Do nothing if input is empty
 
-            // API Key Check
+            // Basic API Key Check
              if (!apiBearerToken || apiBearerToken === 'YOUR_OPENROUTER_API_KEY_HERE' || apiBearerToken.length < 50) {
-                 const errorHtml = `<span style="color: orange; font-weight: bold;"><i class="bi bi-exclamation-triangle-fill me-2"></i>SETUP NEEDED:</span> Please add a valid OpenRouter API key in the script section.`;
-                 appendMessage("Bot", errorHtml, true);
-                 userInput.value = "";
+                 const errorHtml = `<span style="color: orange; font-weight: bold;"><i class="bi bi-exclamation-triangle-fill me-2"></i>SETUP NEEDED:</span> Please add a valid OpenRouter API key in the script section. Get one from <a href="https://openrouter.ai/" target="_blank" rel="noopener">OpenRouter.ai</a>.`;
+                 appendMessage("Bot", errorHtml, true); // Display as HTML to make link clickable
+                 userInput.value = ""; // Clear input after showing error
                  return;
             }
 
+            // Clear input field and display user message immediately
             userInput.value = "";
-            appendMessage("You", input); // Show user message first
+            appendMessage("You", input);
 
-            // Check for Example Request
+            // Handle "Show Example" Request Locally
             if (isAskingForExamplePrompt(input)) {
                 console.log("User asking for example prompt:", input);
+                // Use setTimeout to simulate a slight delay, making it feel more responsive
                 setTimeout(() => {
-                    appendMessage("Bot", sampleInvoicePrompt, true); // Show predefined example
-                    if (userInput) userInput.focus();
+                    // Append the predefined sample prompt, parsing its markdown
+                    appendMessage("Bot", sampleInvoicePrompt, true);
+                    if (userInput) userInput.focus(); // Focus input field after showing example
                 }, 300);
-                return; // Handled, stop here
+                return; // Stop further processing for example requests
             }
 
             // Relevance Check (Only if not an example request)
             if (!isQueryRelevant(input)) {
                 console.log("Query deemed irrelevant:", input);
-                const refusalMessage = "My apologies, I specialize only in creating and managing invoices. I can't help with unrelated topics. How can I assist with your invoice?";
+                const refusalMessage = "My apologies, I specialize only in creating and managing invoices. I can't help with unrelated topics like that. How can I assist with your invoice?";
+                // Use setTimeout for a slight delay
                 setTimeout(() => {
-                    appendMessage("Bot", refusalMessage);
-                    if (userInput) userInput.focus();
+                    appendMessage("Bot", refusalMessage); // Show refusal message
+                    if (userInput) userInput.focus(); // Focus input field
                 }, 300);
-                return; // Not relevant, stop here
+                return; // Stop further processing for irrelevant requests
             }
 
-            // Proceed to API if relevant and not an example request
+            // --- Proceed to API if relevant and not an example request ---
             console.log("Query relevant, sending to AI:", input);
-            showTypingIndicator();
+            showTypingIndicator(); // Show "Bot is typing..."
 
-            // Build Conversation History
+            // --- Build Conversation History ---
             const messages = [{ "role": "system", "content": systemPrompt }];
+            // Select all message paragraphs except the typing indicator
             const chatHistory = responseDiv.querySelectorAll('p:not(#typingIndicator)');
+
             chatHistory.forEach(p => {
                 const labelElement = p.querySelector('b');
-                if (!labelElement) return;
-                const sender = labelElement.textContent.replace(':', '').trim();
-                const contentWrapper = p.querySelector('span');
-                let content = '';
-                if (contentWrapper) {
-                     // const hasExportButton = p.querySelector('.export-invoice-btn'); // Less reliable
-                     const isSamplePromptMsg = contentWrapper.textContent.includes("here's an example of the kind of detailed prompt");
-                     const rawMarkdown = p.dataset.rawMarkdown; // Get raw markdown if stored
+                if (!labelElement) return; // Skip if structure is wrong
 
-                     if (sender === 'Bot' && rawMarkdown && isLikelyInvoice(rawMarkdown)) {
-                         // If it was likely an invoice and we have raw markdown, send that
-                         content = rawMarkdown;
-                     } else if (sender === 'Bot' && isSamplePromptMsg) {
-                         content = "[User was shown sample prompt]"; // Avoid sending full sample
-                     } else if (sender === 'Bot') {
-                         content = contentWrapper.innerHTML.trim(); // Send rendered HTML for other bot messages
-                     } else { // User message
-                         content = contentWrapper.textContent.trim();
-                     }
-                 } else {
-                    content = p.textContent.substring(p.textContent.indexOf(':') + 1).trim(); // Basic fallback
+                const sender = labelElement.textContent.replace(':', '').trim();
+                let content = '';
+
+                // Use the raw markdown stored in the dataset for bot messages if available
+                // This ensures the AI gets the original markdown, not potentially altered HTML
+                if (sender === 'Bot' && p.dataset.rawMarkdown) {
+                    content = p.dataset.rawMarkdown;
+                } else {
+                    // For user messages or bot messages without raw data, get text content from the span
+                    const contentWrapper = p.querySelector('span');
+                    if (contentWrapper) {
+                        content = contentWrapper.textContent.trim();
+                    } else {
+                        // Basic fallback if span structure isn't found
+                        content = p.textContent.substring(p.textContent.indexOf(':') + 1).trim();
+                    }
                 }
 
+                 // Add to history based on role, skipping problematic messages
                  if (sender === 'You' && content) {
                     messages.push({ "role": "user", "content": content });
-                } else if (sender === 'Bot' && content && !content.includes('SETUP NEEDED') && content !== "[User was shown sample prompt]") {
+                } else if (sender === 'Bot' && content && !content.includes('SETUP NEEDED') && !content.includes("here's an example")) { // Exclude setup errors and example intro
                     messages.push({ "role": "assistant", "content": content });
                 }
             });
+            // Add the current user input to the history
             messages.push({ "role": "user", "content": input });
-            // console.log("Sending messages:", JSON.stringify(messages, null, 2));
+            // console.log("Sending messages:", JSON.stringify(messages, null, 2)); // For debugging
 
 
-            // API Call
+            // --- API Call using Fetch ---
             try {
-                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                const apiResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${apiBearerToken}`,
                         'Content-Type': 'application/json',
+                        // Optional headers recommended by OpenRouter
                         'HTTP-Referer': siteUrl,
                         'X-Title': siteName
                     },
                     body: JSON.stringify({
-                        "model": modelIdentifier,
-                        "messages": messages,
-                        "temperature": 0.6,
-                        "max_tokens": 1500,
+                        "model": modelIdentifier, // Use the specified model
+                        "messages": messages,      // Send the constructed history
+                        "temperature": 0.6,        // Controls creativity (0.0 to 1.0)
+                        "max_tokens": 1500,       // Max length of the response
                     }),
                 });
 
-                hideTypingIndicator();
+                hideTypingIndicator(); // Remove "typing..." indicator
 
-                // Handle API Response
-                if (!response.ok) {
-                    let errorDetails = `HTTP Error: ${response.status} ${response.statusText}`;
+                // --- Handle API Response ---
+                if (!apiResponse.ok) {
+                    // Handle HTTP errors (like 401 Unauthorized, 402 Payment Required, 429 Rate Limit, 5xx Server Errors)
+                    let errorDetails = `HTTP Error: ${apiResponse.status} ${apiResponse.statusText}`;
                     try {
-                         const errorData = await response.json();
-                         console.error("API Error Response:", errorData);
-                         errorDetails += ` - ${errorData.error?.message || 'No details.'}`;
-                         if(response.status === 401) errorDetails += " (Check API Key)";
-                         if(response.status === 402) errorDetails += " (Check Credits)";
-                         if(response.status === 429) errorDetails += " (Rate Limited)";
-                         if(response.status >= 500) errorDetails += " (Server Error)";
-                    } catch (e) { /* Ignore */ }
+                         const errorData = await apiResponse.json(); // Try to parse error details from response body
+                         console.error("API Error Response Body:", errorData);
+                         errorDetails += ` - ${errorData.error?.message || 'No specific details provided.'}`;
+                         // Add hints based on common status codes
+                         if(apiResponse.status === 401) errorDetails += " (Check your API Key).";
+                         if(apiResponse.status === 402) errorDetails += " (Check your OpenRouter credits).";
+                         if(apiResponse.status === 429) errorDetails += " (Rate limit exceeded. Please wait).";
+                         if(apiResponse.status >= 500) errorDetails += " (Server error on API side. Try again later).";
+                    } catch (e) { /* Ignore if error response isn't JSON */ }
+                     // Display a user-friendly error message in the chat
                      const errorHtml = `<span style="color: red; font-weight: bold;"><i class="bi bi-x-octagon-fill me-2"></i>API Error:</span> ${errorDetails}`;
-                     appendMessage("Bot", errorHtml, true);
-                    return;
+                     appendMessage("Bot", errorHtml, true); // Render as HTML
+                    return; // Stop processing on error
                 }
 
-                const data = await response.json();
-                console.log("API Success Response:", data);
-                const botResponse = data.choices?.[0]?.message?.content;
+                // If response is OK (status 2xx)
+                const responseData = await apiResponse.json();
+                console.log("API Success Response:", responseData);
+                // Extract the actual message content from the response
+                const botResponseContent = responseData.choices?.[0]?.message?.content;
 
-                if (botResponse) {
-                    // Append the AI's response, rendering Markdown & checking for export/print buttons
-                    appendMessage("Bot", botResponse.trim(), true);
+                if (botResponseContent) {
+                    // Append the AI's response, telling appendMessage to parse it as HTML (Markdown)
+                    appendMessage("Bot", botResponseContent.trim(), true);
                 } else {
-                     console.error("Empty or malformed response content:", data);
-                     appendMessage("Bot", "Sorry, I received an unexpected response. Try rephrasing?");
+                     // Handle cases where the response structure is unexpected
+                     console.error("Empty or malformed response content:", responseData);
+                     appendMessage("Bot", "Sorry, I received an unexpected response from the AI. Maybe try rephrasing your request?");
                 }
 
             } catch (error) {
-                hideTypingIndicator();
+                // Handle network errors (fetch couldn't reach the server)
+                hideTypingIndicator(); // Ensure typing indicator is removed
                 console.error("Network/Fetch Error:", error);
-                 const errorHtml = `<span style="color: red; font-weight: bold;"><i class="bi bi-wifi-off me-2"></i>Network Error:</span> ${error.message}. Check connection.`;
-                 appendMessage("Bot", errorHtml, true);
+                 const errorHtml = `<span style="color: red; font-weight: bold;"><i class="bi bi-wifi-off me-2"></i>Network Error:</span> ${error.message}. Please check your internet connection and try again.`;
+                 appendMessage("Bot", errorHtml, true); // Display network error as HTML
             } finally {
+                 // Always re-focus the input field after processing is complete
                  if (userInput) userInput.focus();
             }
         } // End of sendMessage function
 
         // --- EVENT LISTENERS ---
+        // Send message when Enter key is pressed in the input field (but not Shift+Enter)
         if (userInput) {
             userInput.addEventListener('keypress', function (event) {
                 if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    sendMessage();
+                    event.preventDefault(); // Prevent default Enter behavior (like adding a newline)
+                    sendMessage(); // Call the function to send the message
                 }
             });
         }
 
         // --- INITIALIZATION ---
+        // Run when the DOM is fully loaded
         window.addEventListener('DOMContentLoaded', (event) => {
+             // Hide chatbox initially
              if (chatbox) chatbox.style.display = "none";
+             // Make chatbox draggable by its header
              if (chatbox && chatHeader) makeDraggable(chatbox, chatHeader);
 
-             // Pre-render the initial bot message
-             const initialBotMsgContent = responseDiv.querySelector('.initial-msg-content');
-             if (initialBotMsgContent) {
+             // Pre-render the initial bot message using Marked.js for better display
+             const initialBotMsgContentElement = responseDiv.querySelector('.initial-msg-content');
+             if (initialBotMsgContentElement) {
                  try {
-                     const initialHtml = marked.parse(initialBotMsgContent.textContent || '', { breaks: true, gfm: true });
-                     initialBotMsgContent.innerHTML = initialHtml;
+                     const initialRawText = initialBotMsgContentElement.textContent || '';
+                     const initialHtml = marked.parse(initialRawText, { breaks: true, gfm: true });
+                     initialBotMsgContentElement.innerHTML = initialHtml;
+                     // Store raw text in dataset for consistency, although less critical for the first message
+                     const parentParagraph = initialBotMsgContentElement.closest('p');
+                     if (parentParagraph) {
+                        parentParagraph.dataset.rawMarkdown = initialRawText;
+                     }
                  } catch (e) {
                      console.error("Error parsing initial message markdown:", e);
+                     // If parsing fails, the original text content remains
                  }
              }
         });
@@ -1443,15 +1827,26 @@ Just provide similar details for your own invoice, and I'll do my best to format
          function makeDraggable(element, handle) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             let isDragging = false;
-             const dragHandle = handle || element;
+             const dragHandle = handle || element; // Use provided handle or the element itself
 
+             // Attach event listeners for mouse and touch events
              dragHandle.onmousedown = dragMouseDown;
-             dragHandle.ontouchstart = dragMouseDown;
+             dragHandle.ontouchstart = dragMouseDown; // Add touch support
 
             function dragMouseDown(e) {
-                 if (e.type === 'mousedown' && e.button !== 0) return;
-                 if (e.type === 'mousedown') e.preventDefault();
+                 // Prevent dragging if the click wasn't on the handle itself (e.g., on close button)
+                 if (e.target !== dragHandle && !dragHandle.contains(e.target)) {
+                    // Allow default behavior for elements inside the header (like the close button)
+                    // Check specifically if it's the close button; if so, don't initiate drag
+                    if (e.target.classList.contains('chat-close')) {
+                        return;
+                    }
+                 }
 
+                 if (e.type === 'mousedown' && e.button !== 0) return; // Only allow left mouse button
+                 if (e.type === 'mousedown') e.preventDefault(); // Prevent text selection during drag
+
+                 // Get the initial cursor position
                  if (e.type === 'touchstart') {
                      pos3 = e.touches[0].clientX;
                      pos4 = e.touches[0].clientY;
@@ -1460,22 +1855,24 @@ Just provide similar details for your own invoice, and I'll do my best to format
                      pos4 = e.clientY;
                  }
 
+                // Attach listeners to the document to track movement anywhere on the page
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
-                 document.ontouchend = closeDragElement;
-                 document.ontouchmove = elementDrag;
+                 document.ontouchend = closeDragElement; // Touch equivalent
+                 document.ontouchmove = elementDrag; // Touch equivalent
 
                 isDragging = true;
-                element.style.transition = 'none';
-                 dragHandle.style.cursor = 'grabbing';
-                 document.body.style.userSelect = 'none';
+                element.style.transition = 'none'; // Disable transitions during drag for smoother movement
+                 dragHandle.style.cursor = 'grabbing'; // Change cursor to indicate dragging
+                 document.body.style.userSelect = 'none'; // Prevent text selection on the body
             }
 
             function elementDrag(e) {
-                if (!isDragging) return;
-                 e.preventDefault();
+                if (!isDragging) return; // Only run if dragging has started
+                 e.preventDefault(); // Prevent default actions like scrolling on touch devices
 
                  let currentX, currentY;
+                 // Get the current cursor position
                  if (e.type === 'touchmove') {
                      currentX = e.touches[0].clientX;
                      currentY = e.touches[0].clientY;
@@ -1484,37 +1881,106 @@ Just provide similar details for your own invoice, and I'll do my best to format
                      currentY = e.clientY;
                  }
 
-                pos1 = pos3 - currentX;
-                pos2 = pos4 - currentY;
+                // Calculate the distance the cursor has moved
+                pos1 = pos3 - currentX; // Change in X
+                pos2 = pos4 - currentY; // Change in Y
+                // Update the starting position for the next movement calculation
                 pos3 = currentX;
                 pos4 = currentY;
 
+                // Calculate the element's new position
                 let newTop = element.offsetTop - pos2;
                 let newLeft = element.offsetLeft - pos1;
 
+                // Boundary checks (keep the element within the viewport)
                 const maxTop = window.innerHeight - element.offsetHeight;
                 const maxLeft = window.innerWidth - element.offsetWidth;
-                 newTop = Math.max(0, Math.min(newTop, maxTop));
-                 newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                 newTop = Math.max(0, Math.min(newTop, maxTop)); // Clamp top position
+                 newLeft = Math.max(0, Math.min(newLeft, maxLeft)); // Clamp left position
 
+                // Apply the new position using top/left
                 element.style.top = newTop + "px";
                 element.style.left = newLeft + "px";
+                 // Important: Clear bottom/right styles that might interfere with top/left positioning
                  element.style.bottom = 'auto';
                  element.style.right = 'auto';
             }
 
             function closeDragElement() {
+                // Remove document listeners when dragging stops (mouse button released or touch ends)
                 document.onmouseup = null;
                 document.onmousemove = null;
                  document.ontouchend = null;
                  document.ontouchmove = null;
 
-                isDragging = false;
-                 element.style.transition = '';
-                 dragHandle.style.cursor = 'grab';
-                 document.body.style.userSelect = '';
+                isDragging = false; // Update dragging state
+                 element.style.transition = ''; // Re-enable transitions if they were defined in CSS
+                 dragHandle.style.cursor = 'grab'; // Reset cursor
+                 document.body.style.userSelect = ''; // Re-enable text selection on the body
             }
         } // End of makeDraggable
+
+
+        // --- Dark Mode Toggle Functionality ---
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const bodyElement = document.body; // Use a different name to avoid conflict with chatBody
+        const moonIcon = 'bi-moon-stars-fill';
+        const sunIcon = 'bi-sun-fill';
+
+        // Function to apply the theme (adds/removes class, updates icon)
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                bodyElement.classList.add('dark-mode');
+                darkModeToggle.innerHTML = `<i class="bi ${sunIcon}"></i>`; // Show sun icon
+                darkModeToggle.setAttribute('aria-label', 'Switch to light mode');
+            } else { // 'light' or default
+                bodyElement.classList.remove('dark-mode');
+                darkModeToggle.innerHTML = `<i class="bi ${moonIcon}"></i>`; // Show moon icon
+                darkModeToggle.setAttribute('aria-label', 'Switch to dark mode');
+            }
+        };
+
+        // Check local storage on page load
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            // Apply saved theme
+            applyTheme(currentTheme);
+        } else {
+            // Optional: Check OS preference if no theme is saved in local storage
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+             if (prefersDark) {
+                 applyTheme('dark'); // Apply dark theme based on OS
+                 // Note: We don't save this OS preference to localStorage here.
+                 // This allows the user to manually toggle and override the OS setting.
+             } else {
+                 applyTheme('light'); // Default to light if no preference/storage
+             }
+        }
+
+         // Add event listener to the toggle button
+         darkModeToggle.addEventListener('click', () => {
+             let newTheme;
+             // Check current state and determine the new theme
+             if (bodyElement.classList.contains('dark-mode')) {
+                 newTheme = 'light';
+             } else {
+                 newTheme = 'dark';
+             }
+             // Apply the new theme visually
+             applyTheme(newTheme);
+             // Save the user's explicit choice to local storage
+             localStorage.setItem('theme', newTheme);
+         });
+
+         // Optional: Listen for OS theme changes while the page is open
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+              // Important: Only change the theme if the user hasn't *manually* set one (i.e., no localStorage item exists)
+              if (!localStorage.getItem('theme')) {
+                  const newOsTheme = event.matches ? 'dark' : 'light';
+                  applyTheme(newOsTheme); // Apply the new OS theme
+              }
+          });
+       // --- End of Dark Mode JS ---
 
     </script>
 
